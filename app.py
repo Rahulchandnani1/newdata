@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String
 from flask_cors import CORS
+from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError
 
 app = Flask(__name__)
 CORS(app)
