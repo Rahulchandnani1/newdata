@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configuring the PostgreSQL database
-app.config['SQLALCHEMY_DATABASE_URI'] =os.getenv('DATABASE_URL', 'postgresql://postgres:postgres1@localhost:5432/MBT')
+app.config['SQLALCHEMY_DATABASE_URI'] =os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
