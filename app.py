@@ -7,16 +7,19 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# Use the environment variable for the database URL
-database_url = os.getenv('DATABASE_URL')
+try:
+    database_url = os.getenv('DATABASE_URL')
+    if not database_url:
+        raise ValueError("No DATABASE_URL set for Flask application")
+    
+    engine = create_engine(database_url)
+    engine.connect()
+except OperationalError as e:
+    print(f"OperationalError: {e}")
+    raise RuntimeError("Failed to connect to the database. Check your DATABASE_URL.")
 
-if database_url:
-    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
-else:
-    raise ValueError("No DATABASE_URL set for Flask application")
-
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 
 class Register(db.Model):
